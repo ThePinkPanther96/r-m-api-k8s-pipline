@@ -12,7 +12,7 @@ RUN pip install --upgrade pip
 
 RUN echo ${BUILD_NUMBER} && pip install --no-cache-dir -r requirements.txt
 
-EXPOSE 5001
+EXPOSE 5002
 
 ARG BUILD_NUMBER
 
