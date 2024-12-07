@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rick-n-morty-deployment
+  labels:
+    app: rick-n-morty-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rick-n-morty-app
+  template:
+    metadata:
+      labels:
+        app: rick-n-morty-app
+    spec:
+      containers:
+      - name: rick-n-morty-container
+        image: thepinkpanther96/r-m-api-k8s-pipline
+        ports:
+        - containerPort: 5002

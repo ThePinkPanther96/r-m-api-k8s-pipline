@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rick-n-morty-svc
+  labels:
+    app: rick-n-morty-app
+spec:
+  selector:
+    app: rick-n-morty-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5002
+  type: LoadBalancer
