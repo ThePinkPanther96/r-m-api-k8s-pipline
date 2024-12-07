@@ -83,7 +83,7 @@ def get_characters():
 @app.route('/characters', methods=['GET'])
 def return_characters():
     characters = get_characters()
-    status_message("PASSED","Characters page rendered successfully","200")
+    status_message("PASSED", "Characters page rendered successfully", "200")
     return render_template('characters.html', characters=characters)
 
 
@@ -109,10 +109,15 @@ def internal_error(error):
     return render_template('500.html'), 500
 
 
+@app.route('/characters_data', methods=['GET'])
+def return_characters_data():
+    characters_json = get_characters()
+    return jsonify(characters_json), 200
+
+
 @app.route('/')
 def index():
     return render_template('index.html'), 200
-
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)

@@ -1,0 +1,48 @@
+name: Docker Image CI Pipeline
+
+on:
+  workflow_run:
+    workflows: ["Run Pytest"]
+    types:
+      - completed
+
+permissions:
+  contents: read
+  id-token: write
+  actions: read
+
+jobs:
+  build-and-push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - name: Load version and repo variables
+        id: vars
+        run: |
+          source DOCKER_VARS
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "DOCKER_REPO=$DOCKER_REPO" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_REPO }}:${{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.DOCKER_REPO }}:latest
