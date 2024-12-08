@@ -99,16 +99,6 @@ def healthcheck():
    return jsonify({'Health Checks': healthchecks}), 200
 
 
-@app.errorhandler(404)
-def not_found(error): 
-    return render_template("404.html"), 404
-
-
-@app.errorhandler(500)
-def internal_error(error):
-    return render_template('500.html'), 500
-
-
 @app.route('/characters_data', methods=['GET'])
 def return_characters_data():
     characters_json = get_characters()
@@ -118,6 +108,17 @@ def return_characters_data():
 @app.route('/')
 def index():
     return render_template('index.html'), 200
+
+
+@app.errorhandler(404)
+def not_found(error): 
+    return render_template("404.html"), 404
+
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('500.html'), 500
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5002, debug=True)
