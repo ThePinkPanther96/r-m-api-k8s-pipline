@@ -2,13 +2,13 @@ replicaCount: 2
 
 image:
   repository: thepinkpanther96/r-m-api-k8s-pipline
-  tag: v1.0
+  tag: latest
   pullPolicy: IfNotPresent
 
 service:
   type: LoadBalancer
   port: 80
-  targetPort: 5010
+  targetPort: 5002
 
 ingress:
   enabled: true
