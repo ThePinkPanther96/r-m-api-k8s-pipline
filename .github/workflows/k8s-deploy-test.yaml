@@ -1,0 +1,82 @@
+name: k8s-deploy-and-test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      # Set up Docker so we can run Minikube
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo usermod -aG docker $USER
+
+      - name: Install Kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/kubectl
+
+      - name: Install Minikube
+        run: |
+          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+          sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+      # Start Minikube with Docker driver
+      - name: Start Minikube
+        run: |
+          minikube start --driver=docker --wait=all
+          # Ensure kubectl context is set to minikube
+          minikube update-context
+
+      - name: Install Helm
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+      # Helm chart located at helm/rick-n-morty
+      - name: Helm Install
+        run: |
+          helm upgrade --install rick-n-morty ./helm/rick-n-morty --wait --timeout 120s
+
+      - name: Get Pods
+        run: kubectl get pods -o wide
+
+      # Optional: Show services and ingress to confirm setup
+      - name: Get Services
+        run: kubectl get svc
+
+      - name: Get Ingress
+        run: kubectl get ingress
+
+      # Forward the service port to localhost:5002 (assuming service is named rick-n-morty-rick-n-morty)
+      # If the full name differs, adjust accordingly.
+      - name: Port Forward
+        run: nohup kubectl port-forward svc/rick-n-morty-rick-n-morty 5002:80 &
+
+      # Wait a few seconds to ensure port-forward is active
+      - name: Wait
+        run: sleep 10
+
+      # Quick health checks (Optional)
+      - name: Check Health Endpoint
+        run: curl -f http://localhost:5002/healthcheck
+
+      - name: Check Characters Endpoint
+        run: curl -f http://localhost:5002/characters
+
+      # Install test dependencies and run tests
+      - name: Install test dependencies
+        run: |
+          python3 -m venv venv
+          . venv/bin/activate
+          pip install -r tests/requirements.txt
+
+      - name: Run tests
+        run: |
+          . venv/bin/activate
+          pytest tests/ --maxfail=1 --disable-warnings -v
