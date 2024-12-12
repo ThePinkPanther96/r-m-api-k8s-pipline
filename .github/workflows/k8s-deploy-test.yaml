@@ -39,7 +39,7 @@ jobs:
 
       - name: Helm Install
         run: |
-          helm install rick-n-morty ./helm/rick-n-morty --wait --timeout 120s
+          helm install rick-n-morty . ./helm/rick-n-morty --wait --timeout 120s
 
       - name: Get Pods
         run: kubectl get pods -o wide
