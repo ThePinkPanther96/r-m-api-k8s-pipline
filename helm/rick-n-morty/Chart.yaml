@@ -1,0 +1,6 @@
+apiVersion: v2
+name: rick-n-morty
+description: This Helm chart will deploy the Rick and Morty REST app
+type: application
+version: 0.1.0
+appVersion: "1.0"
