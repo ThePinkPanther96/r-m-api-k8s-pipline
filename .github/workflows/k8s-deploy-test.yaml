@@ -9,7 +9,7 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      # Verify Docker installation
+      # Verify Docker is installed
       - name: Verify Docker
         run: docker version
 
@@ -24,18 +24,19 @@ jobs:
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
-      # Start Minikube with Docker driver
       - name: Start Minikube
         run: |
           minikube start --driver=docker --wait=all
-          # Ensure kubectl context is set to minikube
           minikube update-context
 
       - name: Install Helm
         run: |
           curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      # Helm chart located at helm/rick-n-morty
+      # Debug step to ensure Chart.yaml is present
+      - name: Debug - list helm chart files
+        run: ls -al ./helm/rick-n-morty
+
       - name: Helm Install
         run: |
           helm upgrade --install rick-n-morty ./helm/rick-n-morty --wait --timeout 120s
@@ -43,29 +44,24 @@ jobs:
       - name: Get Pods
         run: kubectl get pods -o wide
 
-      # Optional: Show services and ingress
       - name: Get Services
         run: kubectl get svc
 
       - name: Get Ingress
         run: kubectl get ingress
 
-      # Port forward from the service to localhost:5002
       - name: Port Forward
         run: nohup kubectl port-forward svc/rick-n-morty-rick-n-morty 5002:80 &
 
-      # Wait a few seconds to ensure port-forward is active
       - name: Wait
         run: sleep 10
 
-      # Quick health checks
       - name: Check Health Endpoint
         run: curl -f http://localhost:5002/healthcheck
 
       - name: Check Characters Endpoint
         run: curl -f http://localhost:5002/characters
 
-      # Install test dependencies and run tests
       - name: Install test dependencies
         run: |
           python3 -m venv venv
