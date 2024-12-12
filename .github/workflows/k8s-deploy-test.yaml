@@ -9,7 +9,6 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      # Verify Docker is installed
       - name: Verify Docker
         run: docker version
 
@@ -33,9 +32,12 @@ jobs:
         run: |
           curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      # Debug step to ensure Chart.yaml is present
-      - name: Debug - list helm chart files
-        run: ls -al ./helm/rick-n-morty
+      - name: Debug - show repository structure
+        run: |
+          pwd
+          ls -al
+          ls -al helm
+          ls -al helm/rick-n-morty
 
       - name: Helm Install
         run: |
