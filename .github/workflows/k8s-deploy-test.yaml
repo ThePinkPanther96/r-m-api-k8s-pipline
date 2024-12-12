@@ -9,12 +9,9 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v3
 
-      # Set up Docker so we can run Minikube
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo usermod -aG docker $USER
+      # Verify Docker installation
+      - name: Verify Docker
+        run: docker version
 
       - name: Install Kubectl
         run: |
@@ -46,28 +43,27 @@ jobs:
       - name: Get Pods
         run: kubectl get pods -o wide
 
-      # Optional: Show services and ingress to confirm setup
+      # Optional: Show services and ingress
       - name: Get Services
         run: kubectl get svc
 
       - name: Get Ingress
         run: kubectl get ingress
 
-      # Forward the service port to localhost:8080 (assuming service is named rick-n-morty-rick-n-morty)
-      # If the full name differs, adjust accordingly.
+      # Port forward from the service to localhost:5002
       - name: Port Forward
-        run: nohup kubectl port-forward svc/rick-n-morty-rick-n-morty 8080:80 &
+        run: nohup kubectl port-forward svc/rick-n-morty-rick-n-morty 5002:80 &
 
       # Wait a few seconds to ensure port-forward is active
       - name: Wait
         run: sleep 10
 
-      # Quick health checks (Optional)
+      # Quick health checks
       - name: Check Health Endpoint
-        run: curl -f http://localhost:8080/healthcheck
+        run: curl -f http://localhost:5002/healthcheck
 
       - name: Check Characters Endpoint
-        run: curl -f http://localhost:8080/characters
+        run: curl -f http://localhost:5002/characters
 
       # Install test dependencies and run tests
       - name: Install test dependencies
