@@ -65,9 +65,6 @@ jobs:
 
       - name: Sleep
         run: sleep 10
-        
+
       - name: Test healthcheck endpoint
         run: curl -f http://localhost:5002/healthcheck
-  
-
-  
