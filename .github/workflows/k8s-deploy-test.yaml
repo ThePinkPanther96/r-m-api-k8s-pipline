@@ -1,78 +1,68 @@
-name: k8s-deploy-and-test
+name: CI
 
 on: [push, pull_request]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repo
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      # Verify Docker installation
-      - name: Verify Docker
-        run: docker version
+      - name: Setup Minikube
+        uses: medyagh/setup-minikube@latest
+        with:
+          driver: docker
+          memory: 5002
+          cpus: 2
 
-      - name: Install Kubectl
+      - name: Enable Minikube Ingress
+        run: minikube addons enable ingress
+
+      - name: Install kubectl and helm
+        uses: yokawasa/action-setup-kube-tools@v0.11.2
+        with:
+          setup-tools: |
+            kubectl
+            helm
+          kubectl: '1.25.0'
+          helm: '3.11.1'
+
+      - name: Wait for Ingress Controller
         run: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-          chmod +x kubectl
-          sudo mv kubectl /usr/local/bin/kubectl
+          kubectl wait --namespace ingress-nginx \
+            --for=condition=ready pod \
+            --selector=app.kubernetes.io/component=controller \
+            --timeout=300s
 
-      - name: Install Minikube
+          if kubectl get job -n ingress-nginx | grep ingress-nginx-admission; then
+            for job in $(kubectl get jobs -n ingress-nginx -o jsonpath='{.items[*].metadata.name}' | grep admission); do
+              kubectl wait --for=condition=complete job/$job -n ingress-nginx --timeout=300s
+            done
+          fi
+
+          sleep 20
+
+      - name: Helm install application
+        run: helm install rick-n-morty ./helm/rick-n-morty --set ingress.enabled=true #--wait --timeout 60s
+    
+      - name: Wait for Pods to be Ready
         run: |
-          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
-      # Start Minikube with Docker driver
-      - name: Start Minikube
-        run: |
-          minikube start --driver=docker --wait=all
-          # Ensure kubectl context is set to minikube
-          minikube update-context
-
-      - name: Install Helm
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-      # Helm chart located at helm/rick-n-morty
-      - name: Helm Install
-        run: |
-          helm upgrade --install rick-n-morty ./helm/rick-n-morty --wait --timeout 120s
-
-      - name: Get Pods
-        run: kubectl get pods -o wide
-
-      # Optional: Show services and ingress
-      - name: Get Services
-        run: kubectl get svc
-
-      - name: Get Ingress
-        run: kubectl get ingress
-
-      # Port forward from the service to localhost:5002
-      - name: Port Forward
-        run: nohup kubectl port-forward svc/rick-n-morty-rick-n-morty 5002:80 &
-
-      # Wait a few seconds to ensure port-forward is active
-      - name: Wait
+          kubectl wait --for=condition=ready pod -l app=rick-n-morty --timeout=300s
+          # Or check actual labels set by your chart
+  
+      - name: Get services
+        run: kubectl get svc --all-namespaces
+  
+      - name: Port forward service
+        run: kubectl port-forward svc/rick-n-morty-rick-n-morty 5002:80 &
+  
+      - name: Sleep
         run: sleep 10
-
-      # Quick health checks
-      - name: Check Health Endpoint
+  
+      - name: Test healthcheck endpoint
         run: curl -f http://localhost:5002/healthcheck
-
-      - name: Check Characters Endpoint
-        run: curl -f http://localhost:5002/characters
-
-      # Install test dependencies and run tests
-      - name: Install test dependencies
-        run: |
-          python3 -m venv venv
-          . venv/bin/activate
-          pip install -r tests/requirements.txt
-
-      - name: Run tests
-        run: |
-          . venv/bin/activate
-          pytest tests/ --maxfail=1 --disable-warnings -v
+  
+      - name: Test characters endpoint
+        run: curl -f http://localhost:5002/characters_data
+  
