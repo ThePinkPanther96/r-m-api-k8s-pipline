@@ -59,10 +59,15 @@ jobs:
   
       - name: Sleep
         run: sleep 10
-  
+     
+      - name: Test characters endpoint
+        run: curl -f http://localhost:5002/characters_data
+
+      - name: Sleep
+        run: sleep 10
+        
       - name: Test healthcheck endpoint
         run: curl -f http://localhost:5002/healthcheck
   
-      - name: Test characters endpoint
-        run: curl -f http://localhost:5002/characters_data
+
   
