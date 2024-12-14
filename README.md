@@ -37,13 +37,16 @@ To navigate through the components of this repository, use the contents table be
 4. Navigate to the `/healthcheck` route:
 	- **The following example showcases a healthy output:**
 	  ![Alt text](Templates/Healthchecks_paased.png)
+	
 	-  **If an error occurs due to an issue with the code while using one of the routes, you will be redirected to a 500 error page:**
 	  ![Alt text](Templates/500.png)
+	
 	- **Afterward, navigate to the /healthcheck route to review the logs and error details:**
 	  ![Alt text](Templates/Healthchecks_failed.png)
-	 - **If an error occurs because of an incorrect route in the URL, you will be redirected to a custom 404 error page:**
+	
+	- **If an error occurs because of an incorrect route in the URL, you will be redirected to a custom 404 error page:**
 	   ![Alt text](Templates/404.png)
 6. Click on the `/download` route to download a CSV file containing the character data:
    ![Alt text](Templates/CSV.png)
    ![Alt text](Templates/csv_results.png)
-   **See [Characters] CSV file.**
+   **See [Characters](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/characters.csv) CSV file.**
