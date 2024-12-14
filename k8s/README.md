@@ -146,8 +146,8 @@ The `k8s` directory includes the following files:
 	rick-n-morty-svc            LoadBalancer   10.109.73.120    10.0.1.200    80:30877/TCP   6d22h
 	```
 
-	>[!note]
-	>Take note of the external IPs.
+>[!note]
+>Take note of the external IPs.
 
 	```console 
 	$ kubectl get ingress
@@ -181,7 +181,7 @@ curl http://<EXTERNAL_IP>/<URL>
 - **``/download``:** Downloads a CSV file with character information.
 
 #### Examples:
-	**``$ curl http://10.0.1.201/characters_data``:**
+	**``$ curl http://10.0.1.201/characters_data``**
 
 ```json
 [
