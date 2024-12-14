@@ -149,6 +149,7 @@ Bill,Earth (C-137),https://rickandmortyapi.com/api/character/avatar/45.jpeg
 	**You should get the same results in the previous step.**
 
 ### Customizing Values
+---
 You can modify the values.yaml file to change:
 
 - `replicaCount`: Number of application replicas.

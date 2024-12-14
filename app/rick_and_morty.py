@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 healthchecks = []
 
-BASE_URL = 'https://rickandmortyapi.com/api/character/'
+BASE_URL = 'https://rickandmortyapi.com/api/character/-'
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CSV_FILE = os.path.join(BASE_DIR, 'characters.csv')
 
