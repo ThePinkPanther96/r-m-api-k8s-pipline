@@ -29,3 +29,21 @@ To navigate through the components of this repository, use the contents table be
 1. Open a web browser and search for `curl http://localhost:5002/`
 2. You will be greeted by the home page:
    ![Alt text](Templates/Homepage.png)
+3. Navigate to the `/characters` route. 
+   You will see a webpage displaying a table of filtered Rick and Morty characters, including their names, locations, and images (linked to the full-size image):
+   ![Alt text](Templates/Characters.png)
+   Return to the homepage by clicking the **“Back to Home”** link at the bottom of the page or by using your browser’s back button. 
+   
+4. Navigate to the `/healthcheck` route:
+	- **The following example showcases a healthy output:**
+	  ![Alt text](Templates/Healthchecks_paased.png)
+	-  **If an error occurs due to an issue with the code while using one of the routes, you will be redirected to a 500 error page:**
+	  ![Alt text](Templates/500.png)
+	- **Afterward, navigate to the /healthcheck route to review the logs and error details:**
+	  ![Alt text](Templates/Healthchecks_failed.png)
+	 - **If an error occurs because of an incorrect route in the URL, you will be redirected to a custom 404 error page:**
+	   ![Alt text](Templates/404.png)
+6. Click on the `/download` route to download a CSV file containing the character data:
+   ![Alt text](Templates/CSV.png)
+   ![Alt text](Templates/csv_results.png)
+   **See [Characters] CSV file.**
