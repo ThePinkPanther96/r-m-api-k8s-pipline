@@ -21,19 +21,20 @@ def save_results_to_csv(results):
             writer.writeheader()
             writer.writerows(results)
     except (FileNotFoundError, KeyError, PermissionError) as e:
-        status_message("ERROR", f"Failed to download results to CSV: {e}", "500")
+        status_message("ERROR","[save_results_to_csv]",f"Failed to download results to CSV: {str(e)}", 500)
         abort(500)
     except Exception as e:
-        status_message("ERROR", f"An unexpected error occurred: {e}", "500")
+        status_message("ERROR","[save_results_to_csv]",f"[save_results_to_csv] An unexpected error occurred: {str(e)}", 500)
         abort(500)
 
 
-def status_message(status, message, status_code):
-    time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def status_message(status,function_name, message, status_code):
+    time = datetime.datetime.now().strftime("%H:%M:%S %d-%m-%Y")
     healthchecks.append({
         'Status': status,
+        'Function': function_name, 
         'Message': message,
-        'Status code': status_code,
+        'Status code': int(status_code),
         'Timestamp': time
     }) 
 
@@ -41,9 +42,9 @@ def status_message(status, message, status_code):
 def api_check():
     response = requests.get(BASE_URL)
     if response.status_code == 200:
-        status_message("PASSED","API healthchecks passed successfully.","200")
+        status_message("PASSED","[api_check]","API healthchecks passed successfully.","200")
     else:
-        status_message("ERROR",f"Failed to get Rick and Morty API. {BASE_URL}","500")
+        status_message("ERROR","[api_check]",f"Failed to get Rick and Morty API. {BASE_URL}",500)
 
 
 def get_characters():
@@ -74,7 +75,7 @@ def get_characters():
             params = None 
     
     except Exception as e:
-        status_message("ERROR", str(e), "500")
+        status_message("ERROR","[get_characters]", str(e), 500)
         abort(500)
 
     return results
@@ -82,9 +83,13 @@ def get_characters():
 
 @app.route('/characters', methods=['GET'])
 def return_characters():
-    characters = get_characters()
-    status_message("PASSED", "Characters page rendered successfully", "200")
-    return render_template('characters.html', characters=characters)
+    try:    
+        characters = get_characters()
+        status_message("PASSED","[get_characters]","Characters page rendered successfully", "200")
+        return render_template('characters.html', characters=characters)
+    except Exception as e:
+        status_message("FAILED","[get_characters]",f"An error accourd while rendering the 'characters' page: {str(e)}.",500)
+        abort(500)
 
 
 @app.route('/download', methods=['GET'])
@@ -96,6 +101,7 @@ def download_results():
 
 @app.route('/healthcheck', methods=['GET'])
 def healthcheck():
+   status_message("PASSED","[healthcheck]","Helath checks passed successfully","200")
    return jsonify({'Health Checks': healthchecks}), 200
 
 
