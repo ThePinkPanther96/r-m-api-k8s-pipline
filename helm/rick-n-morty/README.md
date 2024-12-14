@@ -147,3 +147,16 @@ Bill,Earth (C-137),https://rickandmortyapi.com/api/character/avatar/45.jpeg
 	curl http://rick-n-morty.local/healthcheck
 	```
 	**You should get the same results in the previous step.**
+
+### Customizing Values
+You can modify the values.yaml file to change:
+
+- `replicaCount`: Number of application replicas.
+- `image.repository`, `image.tag`: Docker image and tag.
+- `service.type`, `service.port`, `service.targetPort`: Service type and ports.
+- `ingress.enabled`, `ingress.host`, `ingress.className`: Ingress configuration.
+
+For example, to override values without editing the file directly:
+```shell
+helm install my-release . --set replicaCount=3 --set ingress.enabled=false
+```
