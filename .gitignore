@@ -135,6 +135,7 @@ ENV/
 env.bak/
 venv.bak/
 app/venv
+r-m-api-k8s-pipline/venv
 
 
 # Spyder project settings

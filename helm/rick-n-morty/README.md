@@ -134,7 +134,7 @@ Bill,Earth (C-137),https://rickandmortyapi.com/api/character/avatar/45.jpeg
 ...
 ```
 
-5. Ensure rickandmorty.local resolves to the Ingress IP by adding this to /etc/hosts:
+5. Ensure `rick-n-morty.local` resolves to the Ingress IP by adding this to /etc/hosts:
 	```sh
 	echo "<INGRESS_IP> rick-n-morty.local" | sudo tee -a /etc/hosts
 	```
