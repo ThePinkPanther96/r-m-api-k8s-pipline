@@ -12,7 +12,7 @@ To navigate through the components of this repository, use the contents table be
 - [Helm Chart Deployment](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/helm/rick-n-morty/README.md)
 - [Workflow Actions](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/.github/workflows/README.md)
 
-### Usage with Docker Image
+### Basic usage with Docker Image
 ---
 #### How to Build and Run the Docker Image:
 

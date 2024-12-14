@@ -14,6 +14,7 @@ k8s/
 This repository includes Kubernetes manifests such as `Deployment.yaml`, `Service.yaml`, and `Ingress.yaml` for deploying a RESTful API application. The application retrieves and filters character data from an external API, exposing two main endpoints.
 ### Prerequisites
 ---
+- Clone the [r-m-api-k8s-pipline](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline)
 - A running Kubernetes cluster (e.g., Kubeadm, Minikube, etc).
 - An ingress controller installed and configured (e.g., NGINX Ingress Controller).
 - A load balancer solution (e.g., MetalLB) configured for external IP assignment in a bare-metal environment (e.g., EC2 instances).
