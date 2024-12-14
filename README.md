@@ -1,3 +1,4 @@
+# Rick and Morty API Application Project
 ----
 ### Introduction
 ---
