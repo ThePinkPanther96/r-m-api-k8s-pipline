@@ -15,6 +15,7 @@ helm
 ```
 
 ### Overview
+---
 This directory contains a Helm chart for deploying a Rick and Morty API application to a Kubernetes cluster. It includes templates for deployment, ingress, and service resources, along with customizable values in the values.yaml file.
 
 ### Requirements
@@ -24,9 +25,10 @@ This directory contains a Helm chart for deploying a Rick and Morty API applicat
 - Kubernetes cluster context configured.
 
 ### Description
+---
 We are deploying a Kubernetes-based application that interacts with the Rick and Morty API. The application provides routes for retrieving character data, health checks, and downloading CSVs. Using Helm, this setup ensures a scalable and configurable deployment, supporting both LoadBalancer services and Ingress routing.
 
-### Usage
+### Installation
 ---
 
 1. Navigate to the Helm directory:

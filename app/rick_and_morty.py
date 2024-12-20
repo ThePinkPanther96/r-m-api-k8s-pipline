@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, abort, send_file
+from werkzeug.exceptions import InternalServerError
 import requests
 import csv
 import os
@@ -83,12 +84,15 @@ def get_characters():
 
 @app.route('/characters', methods=['GET'])
 def return_characters():
-    try:    
+    try:
         characters = get_characters()
-        status_message("PASSED","[get_characters]","Characters page rendered successfully", "200")
+        status_message("PASSED", "[get_characters]", "Characters page rendered successfully", "200")
         return render_template('characters.html', characters=characters)
+    except InternalServerError as e:
+        status_message("FAILED", "[get_characters]", f"Internal server error: {str(e)}.", 500)
+        abort(500)
     except Exception as e:
-        status_message("FAILED","[get_characters]",f"An error accourd while rendering the 'characters' page: {str(e)}.",500)
+        status_message("FAILED", "[get_characters]", f"An unexpected error occurred: {str(e)}", 500)
         abort(500)
 
 
