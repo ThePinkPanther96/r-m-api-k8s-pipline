@@ -49,31 +49,31 @@ The **Rick & Morty Character Explorer** is a Flask-based web application that 
 	- **Route:** `/`
 	- **Action:** `GET`
 	- **Description:** Displays the home page, providing navigation links to the available features and functionalities.
-		![Alt text](templates/Homepage.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/Homepage.png)
 ---
 2. Characters page:
 	- **Route:** `/characters`
 	- **Action:** `GET`
 	- **Description:** Presents a visually styled HTML page displaying a comprehensive list of characters.
-		![Alt text](templates/Characters.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/Characters.png)
 3. Health Checks
 	- **Route:** `/healthcheck`
 	- **Action:** `GET`
 	- **Description:** Returns a JSON object containing status logs for various components of the app.
-		![Alt text](templates/Healthchecks_paased.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/Healthchecks_paased.png)
 ---
 4. Download CSV
 	- **Route:** `/download`
 	- **Action:** `GET`
 	- **Description:** Downloads a CSV file with character data.
-		![Alt text](templates/CSV.png)
-	   ![Alt text](templates/csv_results.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/CSV.png)
+	   ![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/csv_results.png)
 		**See [Characters](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/characters.csv) CSV file.**
 5. Error Codes
 	- **Route:** `/404`
 	- **Action:** `Error handle`
 	- **Description:**  Invoked when a user tries to access a non-existent route.
-		![Alt text](templates/404.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/404.png)
 	- **Route:** `/500`
 	- **Action:** `Error handle`
 	- **Description:** Invoked when the application encounters an unexpected error or exception.
