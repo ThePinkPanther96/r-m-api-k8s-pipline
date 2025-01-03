@@ -56,6 +56,7 @@ The **Rick & Morty Character Explorer** is a Flask-based web application that 
 	- **Action:** `GET`
 	- **Description:** Presents a visually styled HTML page displaying a comprehensive list of characters.
 		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/Characters.png)
+---
 3. Health Checks
 	- **Route:** `/healthcheck`
 	- **Action:** `GET`
@@ -69,6 +70,7 @@ The **Rick & Morty Character Explorer** is a Flask-based web application that 
 		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/CSV.png)
 	   ![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/csv_results.png)
 		**See [Characters](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/characters.csv) CSV file.**
+---
 5. Error Codes
 	- **Route:** `/404`
 	- **Action:** `Error handle`
