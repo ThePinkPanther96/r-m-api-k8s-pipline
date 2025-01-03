@@ -77,4 +77,4 @@ The **Rick & Morty Character Explorer** is a Flask-based web application that 
 	- **Route:** `/500`
 	- **Action:** `Error handle`
 	- **Description:** Invoked when the application encounters an unexpected error or exception.
-		![Alt text](/templates/500.png)
+		![Alt desc](https://github.com/ThePinkPanther96/r-m-api-k8s-pipline/blob/main/Templates/500.png)
