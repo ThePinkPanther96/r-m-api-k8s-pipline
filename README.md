@@ -1,22 +1,12 @@
 # Rick and Morty API Application Project
 ----
 
-### Directory
+### Repository structure
 ---
 ```
 ├── DOCKER_VARS
 ├── Dockerfile
 ├── README.md
-├── Templates
-│   ├── 404.png
-│   ├── 500.png
-│   ├── CSV.png
-│   ├── Characters.png
-│   ├── Healthchecks_failed.png
-│   ├── Healthchecks_paased.png
-│   ├── Homepage.png
-│   ├── characters.csv
-│   └── csv_results.png
 ├── app
 │   ├── README.md
 │   ├── __init__.py
